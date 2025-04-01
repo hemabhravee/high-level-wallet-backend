@@ -1,73 +1,240 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Wallet Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A NestJS-based wallet management system that allows creating wallets and handling transactions.
 
 ## Installation
 
 ```bash
-$ npm install
+yarn
 ```
 
-## Running the app
+## Running in Development Mode
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+yarn start:dev
 ```
 
-## Test
+## API Endpoints
 
-```bash
-# unit tests
-$ npm run test
+### Root
+- `GET /`: Hello world endpoint
 
-# e2e tests
-$ npm run test:e2e
+### Wallet API
 
-# test coverage
-$ npm run test:cov
-```
+#### Create a Wallet
+- **Endpoint**: `POST /wallet`
+- **Description**: Creates a new wallet with a name and initial balance
+- **Request Body**:
+  ```json
+  {
+    "name": "Ideas",
+    "balance": 99
+  }
+  ```
+- **Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/wallet' \
+    -H 'accept: application/json, text/plain, */*' \
+    --data-raw '{"name":"Ideas","balance":99}'
+  ```
+- **Response**:
+  ```json
+  {
+      "status": "SUCCESS",
+      "data": {
+          "balance": 99,
+          "name": "Ideas",
+          "_id": "67eb51c0c43d50f8c4f5cf62",
+          "createdAt": "2025-04-01T02:38:56.322Z",
+          "updatedAt": "2025-04-01T02:38:56.322Z",
+          "__v": 0
+      }
+  }
+  ```
 
-## Support
+#### Get Wallet by ID
+- **Endpoint**: `GET /wallet/:id`
+- **Description**: Retrieves wallet information by ID
+- **Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/wallet/67eb51c0c43d50f8c4f5cf62' \
+    -H 'accept: application/json, text/plain, */*'
+  ```
+- **Response**:
+  ```json
+  {
+      "status": "SUCCESS",
+      "data": {
+          "_id": "67eb51c0c43d50f8c4f5cf62",
+          "balance": 108,
+          "name": "Ideas",
+          "createdAt": "2025-04-01T02:38:56.322Z",
+          "updatedAt": "2025-04-01T02:40:18.428Z",
+          "__v": 1
+      }
+  }
+  ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### Get Wallet by Name
+- **Endpoint**: `GET /wallet/name/:name`
+- **Description**: Retrieves wallet information by name
+- **Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/wallet/name/Ideas'
+  ```
+- **Response**:
+  ```json
+  {
+      "status": "SUCCESS",
+      "data": {
+          "_id": "67eb51c0c43d50f8c4f5cf62",
+          "balance": 108,
+          "name": "Ideas",
+          "createdAt": "2025-04-01T02:38:56.322Z",
+          "updatedAt": "2025-04-01T02:40:18.428Z",
+          "__v": 1
+      }
+  }
+  ```
 
-## Stay in touch
+### Transaction API
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### Create a Transaction
+- **Endpoint**: `POST /transaction`
+- **Description**: Creates a new transaction for a wallet
+- **Request Body**:
+  ```json
+  {
+    "walletId": "67eb51c0c43d50f8c4f5cf62",
+    "amount": 100,
+    "description": "123",
+    "version": 1
+  }
+  ```
+- **Notes**:
+  - Positive amount for credit, negative amount for debit
+  - Version is required for optimistic concurrency control
 
-## License
+- **Credit Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/transaction' \
+    -H 'accept: application/json, text/plain, */*' \
+    --data-raw '{"walletId":"67eb51c0c43d50f8c4f5cf62","amount":100,"description":"123","version":1}'
+  ```
+- **Credit Response**:
+  ```json
+  {
+      "status": "SUCCESS",
+      "data": {
+          "amount": 100,
+          "description": "123",
+          "balance": 208,
+          "walletId": "67eb51c0c43d50f8c4f5cf62",
+          "_id": "67eb52f4c43d50f8c4f5cf8d",
+          "createdAt": "2025-04-01T02:44:04.639Z",
+          "updatedAt": "2025-04-01T02:44:04.639Z",
+          "__v": 0
+      }
+  }
+  ```
 
-Nest is [MIT licensed](LICENSE).
+- **Debit Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/transaction' \
+    -H 'accept: application/json, text/plain, */*' \
+    --data-raw '{"walletId":"67eb51c0c43d50f8c4f5cf62","amount":-20,"description":"debit","version":2}'
+  ```
+- **Debit Response**:
+  ```json
+  {
+      "status": "SUCCESS",
+      "data": {
+          "amount": -20,
+          "description": "debit",
+          "balance": 188,
+          "walletId": "67eb51c0c43d50f8c4f5cf62",
+          "_id": "67eb52fec43d50f8c4f5cf91",
+          "createdAt": "2025-04-01T02:44:14.782Z",
+          "updatedAt": "2025-04-01T02:44:14.782Z",
+          "__v": 0
+      }
+  }
+  ```
+
+#### Query Transactions
+- **Endpoint**: `GET /transaction/query`
+- **Description**: Retrieves transactions with filtering, pagination, search, and sorting capabilities
+- **Query Parameters**:
+  - `walletId`: ID of the wallet (required)
+  - `skip`: Number of records to skip for pagination (default: 0)
+  - `limit`: Maximum number of records to return (default: 10)
+  - `search`: Search string for filtering by description or amount
+  - `sortField`: Field to sort by (options: 'amount', 'date')
+  - `sortOrder`: Sort direction (options: 'asc', 'desc')
+
+- **Basic Query Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/transaction/query?walletId=67eb51c0c43d50f8c4f5cf62&skip=0&limit=10&search='
+  ```
+- **Response**:
+  ```json
+  {
+      "status": "SUCCESS",
+      "page": 1,
+      "size": 10,
+      "totalCount": 3,
+      "data": [
+          {
+              "id": "67eb52fec43d50f8c4f5cf91",
+              "walletId": "67eb51c0c43d50f8c4f5cf62",
+              "amount": -20,
+              "description": "debit",
+              "balance": 188,
+              "date": "2025-04-01T02:44:14.782Z"
+          },
+          {
+              "id": "67eb52f4c43d50f8c4f5cf8d",
+              "walletId": "67eb51c0c43d50f8c4f5cf62",
+              "amount": 100,
+              "description": "123",
+              "balance": 208,
+              "date": "2025-04-01T02:44:04.639Z"
+          },
+          {
+              "id": "67eb5212c43d50f8c4f5cf70",
+              "walletId": "67eb51c0c43d50f8c4f5cf62",
+              "amount": 9,
+              "description": "n",
+              "balance": 108,
+              "date": "2025-04-01T02:40:18.677Z"
+          }
+      ]
+  }
+  ```
+
+- **Sort by Amount (Ascending) Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/transaction/query?walletId=67eb51c0c43d50f8c4f5cf62&skip=0&limit=10&search=&sortField=amount&sortOrder=asc'
+  ```
+
+- **Sort by Amount (Descending) Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/transaction/query?walletId=67eb51c0c43d50f8c4f5cf62&skip=0&limit=10&search=&sortField=amount&sortOrder=desc'
+  ```
+
+- **Sort by Date (Ascending) Example**:
+  ```bash
+  curl 'https://high-level-wallet-backend.onrender.com/transaction/query?walletId=67eb51c0c43d50f8c4f5cf62&skip=0&limit=10&search=&sortField=date&sortOrder=asc'
+  ```
+
+## Rules & Constraints
+
+1. Wallet names must be unique - attempting to create a wallet with an existing name will fail
+2. Minimum wallet balance is zero - debit transactions that would reduce balance below zero will be rejected
+3. Maximum wallet balance is 1,000,000,000 - credit transactions that would increase balance above this limit will be rejected
+4. Balances should contain up to 4 decimal places only
+
+## Notes
+- The search functionality works on both description and amount fields
+- Transaction queries support sorting by date or amount in ascending or descending order
+- The API is hosted at `https://high-level-wallet-backend.onrender.com`
